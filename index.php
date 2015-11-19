@@ -58,7 +58,7 @@ function test_input($data) {
         <style>
             .err{
                 outline: 1px dashed red;
-                background-color: rgba (255,0,0,0.2);
+                background-color: lightcoral;
             }
         </style>
     </head>
@@ -69,25 +69,25 @@ function test_input($data) {
             <li><a href="http://www.w3schools.com/">W3Schools</a></li>
             <li><a href="http://www.w3schools.com/php/">Manual do PHP</a></li>
         </ul>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" >
 
-            Name: <input type="text" name="name" class="<?= strlen($nameErr) != 0 ? "err" : ""; ?>">
+            Name: <input type="text" name="name" class="<?= strlen($nameErr) != 0 ? "err" : ""; ?>" value="<?= $name;?>">
             <span class="error">* <?php echo $nameErr; ?></span>
             <br><br>
             E-mail:
-            <input type="text" name="email" class="<?= strlen($emailErr) != 0 ? "err" : ""; ?>">
-            <span class="error">* <?php echo @$emailErr; ?></span>
+            <input type="text" name="email" class="<?= strlen($emailErr) != 0 ? "err" : ""; ?>" value="<?= $email;?>">
+            <span class="error">* <?php echo $emailErr; ?></span>
             <br><br>
             Website:
-            <input type="text" name="website" >
-            <span class="error"><?php echo @$websiteErr; ?></span>
+            <input type="text" name="website" value="<?= $website;?>" >
+            <span class="error"><?php echo $websiteErr; ?></span>
             <br><br>
-            Comment: <textarea name="comment" rows="5" cols="40"></textarea>
+            Comment: <textarea name="comment" rows="5" cols="40"><?php echo $comment;?></textarea>
             <br><br>
             Gender:
-            <input type="radio" name="gender" value="female" class="<?= strlen($genderErr) != 0 ? "err" : ""; ?>">Female
-            <input type="radio" name="gender" value="male" class="<?= strlen($genderErr) != 0 ? "err" : ""; ?>">Male
-            <span class="error">* <?php echo @$genderErr; ?></span>
+            <input type="radio" name="gender" value="female" class="<?= strlen($genderErr) != 0 ? "err" : ""; ?>" <?php if (isset($gender) && $gender=="female") echo "checked";?>>Female
+            <input type="radio" name="gender" value="male" class="<?= strlen($genderErr) != 0 ? "err" : ""; ?>" <?php if (isset($gender) && $gender=="male") echo "checked";?>>Male
+            <span class="error">* <?php echo $genderErr; ?></span>
             <br><br>
             <input type="submit" name="submit" value="Submit"> 
 
