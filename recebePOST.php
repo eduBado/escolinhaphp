@@ -7,11 +7,11 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Recebe dados através de POST</title>
     </head>
     <body>
-        <?php
-        // put your code here
-        ?>
+        <h1>Exemplo de recebimento - Método POST</h1>
+        Bem-vindo <?php echo $_POST["name"]; ?><br>
+        Seu e-mail é: <?php echo $_POST["email"]; ?>
     </body>
 </html>

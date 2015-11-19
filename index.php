@@ -11,8 +11,6 @@
             <li><a href="http://www.w3schools.com/">W3Schools</a></li>
             <li><a href="http://www.w3schools.com/php/">Manual do PHP</a></li>
         </ul>
-        <?php
-        // put your code here
-        ?>
+        
     </body>
 </html>
