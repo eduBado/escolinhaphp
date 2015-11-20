@@ -52,7 +52,11 @@ $mensagem .= "Genero: $gender \r\n";
 $mensagem .= "Comentários \r\n\n $comment";
 $headers = "From: $name <$email>" . "\r\n" .
         'X-Mailer: PHP/' . phpversion();
-if (strlen($nameErr) == 0 && strlen($emailErr) == 0 && strlen($websiteErr) == 0) {
+if (strlen($nameErr) == 0 
+        && strlen($emailErr) == 0 
+        && strlen($websiteErr) == 0 
+        && strlen($name) != 0 && strlen($email))
+    {
     mail($para, $assunto, $mensagem, $headers);
     $statusMail = true;
 } else {
