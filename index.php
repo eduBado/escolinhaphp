@@ -30,7 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $comment = "";
     } else {
         $comment = test_input($_POST["comment"]);
+        $comment = wordwrap($comment, 40);
     }
+
 
     if (empty($_POST["gender"])) {
         $genderErr = "Gender is required";
@@ -39,6 +41,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+
+
+/* ENVIO DE EMAIL */
+$para = 'edubado08@gmail.com';
+$assunto = 'E-mail através de formulário';
+$mensagem = "De: $name <$email> \r\n";
+$mensagem .= "Website: $website \r\n";
+$mensagem .= "Genero: $gender \r\n";
+$mensagem .= "Comentários \r\n\n $comment";
+$headers = "From: $name <$email>" . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+if (strlen($nameErr) == 0 && strlen($emailErr) == 0 && strlen($websiteErr) == 0) {
+    mail($para, $assunto, $mensagem, $headers);
+    $statusMail = true;
+} else {
+    $statusMail = false;
+}
+
+//*** Fim da função de envio de e-mail
 //Limpeza dos dados de entrada
 function test_input($data) {
     $data = trim($data);
@@ -71,27 +92,33 @@ function test_input($data) {
         </ul>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" >
 
-            Name: <input type="text" name="name" class="<?= strlen($nameErr) != 0 ? "err" : ""; ?>" value="<?= $name;?>">
+            Name: <input type="text" name="name" class="<?= strlen($nameErr) != 0 ? "err" : ""; ?>" value="<?= $name; ?>">
             <span class="error">* <?php echo $nameErr; ?></span>
             <br><br>
             E-mail:
-            <input type="text" name="email" class="<?= strlen($emailErr) != 0 ? "err" : ""; ?>" value="<?= $email;?>">
+            <input type="text" name="email" class="<?= strlen($emailErr) != 0 ? "err" : ""; ?>" value="<?= $email; ?>">
             <span class="error">* <?php echo $emailErr; ?></span>
             <br><br>
             Website:
-            <input type="text" name="website" value="<?= $website;?>" >
+            <input type="text" name="website" value="<?= $website; ?>" >
             <span class="error"><?php echo $websiteErr; ?></span>
             <br><br>
-            Comment: <textarea name="comment" rows="5" cols="40"><?php echo $comment;?></textarea>
+            Comment: <textarea name="comment" rows="5" cols="40"><?php echo $comment; ?></textarea>
             <br><br>
             Gender:
-            <input type="radio" name="gender" value="female" class="<?= strlen($genderErr) != 0 ? "err" : ""; ?>" <?php if (isset($gender) && $gender=="female") echo "checked";?>>Female
-            <input type="radio" name="gender" value="male" class="<?= strlen($genderErr) != 0 ? "err" : ""; ?>" <?php if (isset($gender) && $gender=="male") echo "checked";?>>Male
+            <input type="radio" name="gender" value="female" class="<?= strlen($genderErr) != 0 ? "err" : ""; ?>" <?php if (isset($gender) && $gender == "female") echo "checked"; ?>>Female
+            <input type="radio" name="gender" value="male" class="<?= strlen($genderErr) != 0 ? "err" : ""; ?>" <?php if (isset($gender) && $gender == "male") echo "checked"; ?>>Male
             <span class="error">* <?php echo $genderErr; ?></span>
             <br><br>
             <input type="submit" name="submit" value="Submit"> 
 
         </form>
-
+        <?php
+        if (isset($statusMail) && $statusMail) {
+            echo "<h1> E-mail enviado </h1>";
+        } else {
+            echo "<h1 class='err'>E-mail nao enviado!</h1>";
+        }
+        ?>
     </body>
 </html>
