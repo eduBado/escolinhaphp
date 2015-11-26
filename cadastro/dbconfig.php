@@ -4,4 +4,4 @@
 $host = 'localhost';
 $dbname = 'escolinha';
 $username = 'escolinha';
-$password = 'pq4JJ2dC4RFdz2q5';
+$password = '12345';
