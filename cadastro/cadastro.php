@@ -1,7 +1,14 @@
 <?php
 
 //Faz a requisição de dados paraconexão com o BD
-require_once 'dbconfig.php';
+
+if ($_SERVER['SERVER_ADDR'] == '127.0.0.1') {
+    require_once 'dbconfig.php';
+} else {
+require_once 'dbconfighostinger.php';
+}
+//Inclusão da funcão que envia e-mail
+include_once 'emailConfirma.php';
 
 /*
  * Conexão com o banco de dados 
@@ -56,6 +63,20 @@ if (isset($_POST['btn'])) {
         $p = $conn->prepare($sql);
         $q = $p->execute($parametros);
 
+        /*
+         * Envio de e-mail para confirmação
+         */
+         //Link para ser enviado por e-mail
+            $link = "<a href='". $_SERVER['PHP_SELF'];
+             "?cod=e&hash=' title='Clique para confirmar o e-mail'>";          
+             "Clique para confirmar seu e-mail";
+             "</a>";
+            
+            emailConfirma($email,$link);
+        /*
+         * ----------------------------------------------------------------
+         */
+        
         //Listagem de e-mails
         header('Location: cadastro.php?cod=listar');
         
@@ -92,10 +113,11 @@ if (isset($_POST['btn'])) {
             echo "</a>" . "\t";
             
             //Link para ser enviado por e-mail
-            $link = "<a href='". $_SERVER['PHP_SELF'];
-             "?cod=e&hash=$r[cod]' title='Clique para confirmar o e-mail'>";          
-             $r['situacao'] . "\t";
-             "</a>";
+            $link = "<a href='";
+            $link .= $_SERVER['PHP_SELF'];
+            $link .= "?cod=e&hash=$r[cod]' title='Clique para confirmar o e-mail'>";          
+            $link .= $r['situacao'] . "\t";
+            $link .= "</a> \t";
             
             echo $link;
             
